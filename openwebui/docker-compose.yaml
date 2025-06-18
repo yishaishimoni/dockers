@@ -1,0 +1,54 @@
+services:
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    volumes:
+      - /var/lib/docker/volumes/ollama:/root/.ollama
+    networks: 
+      - webui_net
+    restart: on-failure
+    ports:
+      - "11434:11434"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+
+  tika:
+    image: apache/tika
+    container_name: tika
+    networks:
+      - webui_net
+    restart: on-failure
+    ports:
+      - "9998:9998"
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - WEBUI_AUTH=False
+    volumes:
+      - /var/lib/docker/volumes/open-webui:/app/backend/data
+    networks: 
+      - webui_net
+    restart: on-failure
+    ports:
+      - "8080:8080"
+
+  docling:
+    image: quay.io/docling-project/docling-serve
+    container_name: docling
+    ports:
+      - "5001:5001"
+    environment: 
+      - DOCLING_SERVE_ENABLE_UI=true 
+    restart: on-failure
+    networks:
+      - webui_net
+
+networks:
+  webui_net:
+    driver: bridge
+
