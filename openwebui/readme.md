@@ -1,0 +1,20 @@
+# Build a local openwebUI interface using local Ollama models
+
+## Introduction
+This docker compose deploys a swarm of dockers: The openwebUI docker, the ollama docker, a tika docker and a docling docker
+- OpenwebUI docker, creating the interface that allows chatting with the models and opens port 8080
+- Ollama docker is the AI model server on prt 11434, which can host multiple LLMs (see https://ollama.com/search for a list of models)
+- Tika is a lightweight document parsing engine that handles many types of documents on port 9998
+- Docling is a larger document parsing model by IBM that has much better support for complex documents, images, tables, etc on port 5001. It is, of course, also much heavier and much slower
+
+The instructions above are tailored for a setup with docker running in WSL (windows system linux), 
+but the definition of a dedicated network with a bridge should allow this to work on any system (I hope).
+
+### Note 
+Many of these dockers require downloading several Gs of layers or models. Do not use this over a limited or metered network.
+
+## Pre-installation for using GPUs with docker
+- Make sure that you have the latest drivers for you GPU
+- Enable cuda-toolkit from within ubuntu by following [these instructions](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_local).
+- Within ubuntu, install the nvidia-container-toolkit by following [these instructions](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html).
+Now, the gpu resource should be available when starting a container.
