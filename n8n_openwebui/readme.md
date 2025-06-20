@@ -5,6 +5,8 @@ Unlike the 8n8 setup, it allows using local AI models and so doesn't require any
 On the other hand, local models usually have less reasoning and reflection capabilities and you may have to inject those into the workflow ourself.
 Still, this is a great environment if you want to build local agents. 
 
+The installation includes relatively large downloads of several Gb models so take that under consideration when starting the swarm for the first time or updating it.
+
 ### Notes
 - The instructions here are tailored for a setup with docker running in WSL (windows system linux), 
 but the definition of a dedicated network with a bridge should allow this to work on any system (I hope).
